@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for card in cards %}
+    {{ card.name }} {{ card.color }} <img src="/media/{{card.name}}{{card.namecolor}}.png"><br>
+{% endfor %}
+</body>
+</html>

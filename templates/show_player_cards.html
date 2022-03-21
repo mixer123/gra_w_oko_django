@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+Karty usera<br>
+{% for u in user %}
+    {{ u.card.name }} {{u.card.color}}
+    <img src="/media/{{u.card.name}}{{u.card.namecolor}}.png">
+{% endfor %}
+<br>
+Karty croupiera<br>
+{% for u in croupier %}
+    {{ u.card.name }} {{u.card.color}}
+ <img src="/media/{{u.card.name}}{{u.card.namecolor}}.png">
+{% endfor %}
+</body>
+</html>

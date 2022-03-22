@@ -1,4 +1,4 @@
-#!/home/mixer/MEGAsync/pythonProject/django/gra_w_oko/venv/bin/python
+#!/home/fedora/MEGAsync/pythonProject/django/gra_w_oko/venv/bin/python
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 

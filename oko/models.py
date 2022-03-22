@@ -1,41 +1,39 @@
 from django.db import models
 
-# Create your models here.
-#
-# POSSIBLE_VALUES  = (
-#     ("2", "2"),
-#     ("3", "3"),
-#     ("4", "4"),
-#     ("5", "5"),
-#     ("6", "6"),
-#     ("7", "7"),
-#     ("8", "8"),
-#     ("9", "9"),
-#     ("10", "10"),
-#     ("J", "J"),
-#     ("K", "K"),
-#     ("Q", "Q"),
-#     ("A", "A"),
-# )
-#
-# POSSIBLE_COLORS = (
-#     ('sapdes', '\u2664'),
-#     ('diamonds', '\u2662'),
-#     ('hearts', '\u2661'),
-#     ('clubs', '\u2667'),
-# )
-
 class Card(models.Model):
-
     name = models.CharField(max_length=100,  verbose_name='')
     color = models.CharField(max_length=100,  verbose_name='')
     namecolor = models.CharField(max_length=3, verbose_name='')
+    status = models.BooleanField(default=True)
 
 
-    def __str__(self):
-        self.name
+    def score(self):
+        sum = 0
+        sum_A = 0
+        sum_F = 0
+        if self.name in ['j', 'k', 'q']:
+           sum += 10
+           sum_F += 1
+
+        if self.name in ['2', '3', '4', '5', '6', '7', '8', '9', '10']:
+           sum += int(self.name)
+           if self.name == "a":
+                sum_A += 1
+        if sum_A == 2 or (sum_A == 1 and sum_F == 1):
+            sum = 21
+        return sum
 
 
 
-    # class Meta:
-    #     abstract = True
+    # def __str__(self):
+    #     self.name
+
+class Player(models.Model):
+
+    name = models.CharField(max_length=100, verbose_name='')
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+
+
+
+
+

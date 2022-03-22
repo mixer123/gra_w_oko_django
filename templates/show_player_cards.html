@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Pokaż talię{% endblock %}
+
+{% block content %}
+Karty usera<br>
+{% for u in user %}
+    {{ u.card.name }} {{u.card.color}}
+    <img src="/media/{{u.card.name}}{{u.card.namecolor}}.png">
+{% endfor %}
+punkty: {{ score_user }}
+<br>
+Karty croupiera<br>
+{% for u in croupier %}
+    {{ u.card.name }} {{u.card.color}}
+ <img src="/media/{{u.card.name}}{{u.card.namecolor}}.png">
+{% endfor %}
+punkty: {{ score_croupier }}
+
+<form action="{% url 'oko:reset_card' %}" method="post">
+{% csrf_token %}
+ <button type="submit"  value="Reset">Usun</button>
+ </form>
+
+
+<form action="{% url 'oko:take_one_card_more' %}" method="post">
+{% csrf_token %}
+ <button type="submit"  value="One more">One more</button>
+ </form>
+
+
+
+<form action="{% url 'oko:finall_game' %}" method="post">
+{% csrf_token %}
+ <button type="submit"  value="finall_game">Pass</button>
+ </form>
+{% endblock %}

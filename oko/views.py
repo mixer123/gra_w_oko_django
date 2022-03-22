@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import *
 from django.shortcuts import redirect
+from random import shuffle
 
 
 # Create your views here.
@@ -28,6 +29,90 @@ def create_deck(request):
 def show_deck(request):
     cards = Card.objects.all()
     return render(request, 'show_deck.html', {'cards':cards})
+
+def take_cards(request):
+    list_cards_id = []
+    cards = Card.objects.all()
+    for card in cards:
+        list_cards_id.append(card.id)
+    shuffle(list_cards_id)
+    id=list_cards_id.pop()
+    card = Card.objects.get(id=id)
+    Card.objects.filter(id=id).update(status=False)
+    Player.objects.create(name='user',card=card)
+    id = list_cards_id.pop()
+    card = Card.objects.get(id=id)
+    Card.objects.filter(id=id).update(status=False)
+    Player.objects.create(name='user', card=card)
+    # Teraz croupier losuje
+    shuffle(list_cards_id)
+    id = list_cards_id.pop()
+    card = Card.objects.get(id=id)
+    Card.objects.filter(id=id).update(status=False)
+    Player.objects.create(name='croupier', card=card)
+    id = list_cards_id.pop()
+    card = Card.objects.get(id=id)
+    Card.objects.filter(id=id).update(status=False)
+    Player.objects.create(name='croupier', card=card)
+    return redirect('/show_player_cards/')
+
+def take_one_card_more(request):
+
+    list_id =[]
+    for card in Card.objects.filter(status=True):
+        list_id.append(card.id)
+    shuffle(list_id)
+    id =list_id.pop()
+    card = Card.objects.get(id=id)
+    Player.objects.create(name='user', card=card)
+    Card.objects.filter(id=id).update(status=False)
+    return redirect('/show_player_cards/')
+
+def reset_card(request):
+
+    for card in Player.objects.all():
+        Card.objects.filter(id=card.card_id).update(status=True)
+    Player.objects.all().delete()
+    return render(request, 'reset_card.html')
+
+
+
+
+def show_player_cards(request):
+    user = Player.objects.filter(name='user')
+    croupier = Player.objects.filter(name='croupier')
+
+
+    sum_user = 0
+    sum_croupier = 0
+    for u in user:
+         sum_user += u.card.score()
+
+    for u in croupier:
+        sum_croupier += u.card.score()
+
+    return render(request, 'show_player_cards.html',{'user':user, 'croupier':croupier, 'score_user':sum_user, 'score_croupier':sum_croupier})
+
+
+
+def finall_game(request):
+    user = Player.objects.filter(name='user')
+    croupier = Player.objects.filter(name='croupier')
+
+    sum_user = 0
+    sum_croupier = 0
+    for u in user:
+        sum_user += u.card.score()
+
+    for u in croupier:
+        sum_croupier += u.card.score()
+    if sum_croupier > sum_user:
+        message = "Croupier wygrał"
+    else:
+        message = "User wygrał"
+    reset_card(request)
+    return render(request,"finall_game.html", {'message':message})
+
 
 
 def admin(request):

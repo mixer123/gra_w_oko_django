@@ -28,7 +28,7 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
-$VIRTUAL_ENV = r"/home/mixer/MEGAsync/pythonProject/django/gra_w_oko/venv"
+$VIRTUAL_ENV = r"/home/fedora/MEGAsync/pythonProject/django/gra_w_oko/venv"
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]

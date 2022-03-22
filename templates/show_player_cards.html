@@ -10,11 +10,20 @@ Karty usera<br>
     {{ u.card.name }} {{u.card.color}}
     <img src="/media/{{u.card.name}}{{u.card.namecolor}}.png">
 {% endfor %}
+punkty: {{ score_user }}
 <br>
 Karty croupiera<br>
 {% for u in croupier %}
     {{ u.card.name }} {{u.card.color}}
  <img src="/media/{{u.card.name}}{{u.card.namecolor}}.png">
 {% endfor %}
+punkty: {{ score_croupier }}
+
+<form action="{% url 'oko:reset_card' %}" method="post">
+{% csrf_token %}
+ <button type="submit"  value="Reset">Usun</button>
+ </form>
+
+
 </body>
 </html>

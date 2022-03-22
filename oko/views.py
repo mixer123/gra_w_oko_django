@@ -39,27 +39,54 @@ def take_cards(request):
     id=list_cards_id.pop()
     card = Card.objects.get(id=id)
     Card.objects.filter(id=id).update(status=False)
-    user = Player.objects.create(name='user',card=card)
+    Player.objects.create(name='user',card=card)
     id = list_cards_id.pop()
     card = Card.objects.get(id=id)
     Card.objects.filter(id=id).update(status=False)
-    user = Player.objects.create(name='user', card=card)
-
+    Player.objects.create(name='user', card=card)
     # Teraz croupier losuje
     shuffle(list_cards_id)
     id = list_cards_id.pop()
     card = Card.objects.get(id=id)
     Card.objects.filter(id=id).update(status=False)
-    user = Player.objects.create(name='croupier', card=card)
+    Player.objects.create(name='croupier', card=card)
     id = list_cards_id.pop()
     card = Card.objects.get(id=id)
     Card.objects.filter(id=id).update(status=False)
-    user = Player.objects.create(name='croupier', card=card)
+    Player.objects.create(name='croupier', card=card)
     return render(request, 'take_cards.html')
+
+def take_one_card_more(request):
+    #DKONczyc
+    cards = Card.objects.filter(status=True)
+    shuffle(list(cards.id))
+    return redirect('show_player_cards.html')
+
+def reset_card(request):
+
+    for card in Player.objects.all():
+        Card.objects.filter(id=card.card_id).update(status=True)
+    Player.objects.all().delete()
+    return render(request, 'reset_card.html')
+
+
+
 
 def show_player_cards(request):
     user = Player.objects.filter(name='user')
     croupier = Player.objects.filter(name='croupier')
-    return render(request, 'show_player_cards.html',{'user':user, 'croupier':croupier})
+
+
+    sum_user = 0
+    sum_croupier = 0
+    for u in user:
+         sum_user += u.card.score()
+
+    for u in croupier:
+        sum_croupier += u.card.score()
+
+    return render(request, 'show_player_cards.html',{'user':user, 'croupier':croupier, 'score_user':sum_user, 'score_croupier':sum_croupier})
+
+
 def admin(request):
     return redirect('/admin/')

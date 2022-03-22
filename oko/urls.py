@@ -11,5 +11,6 @@ urlpatterns = [
     path('show_deck/', views.show_deck, name='show_deck'),
     path('take_cards/', views.take_cards, name='take_cards'),
     path('show_player_cards/', views.show_player_cards, name='show_player_cards'),
+    path('reset_card/', views.reset_card, name='reset_card'),
 
    ]

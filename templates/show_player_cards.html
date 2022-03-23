@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Pokaż talię{% endblock %}
+
+{% block content %}
 Karty usera<br>
 {% for u in user %}
     {{ u.card.name }} {{u.card.color}}
@@ -25,5 +23,15 @@ punkty: {{ score_croupier }}
  </form>
 
 
-</body>
-</html>
+<form action="{% url 'oko:take_one_card_more' %}" method="post">
+{% csrf_token %}
+ <button type="submit"  value="One more">One more</button>
+ </form>
+
+
+
+<form action="{% url 'oko:finall_game' %}" method="post">
+{% csrf_token %}
+ <button type="submit"  value="finall_game">Pass</button>
+ </form>
+{% endblock %}

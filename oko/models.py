@@ -9,18 +9,15 @@ class Card(models.Model):
 
     def score(self):
         sum = 0
-        sum_A = 0
-        sum_F = 0
+
+
         if self.name in ['j', 'k', 'q']:
            sum += 10
-           sum_F += 1
+
 
         if self.name in ['2', '3', '4', '5', '6', '7', '8', '9', '10']:
            sum += int(self.name)
-           if self.name == "a":
-                sum_A += 1
-        if sum_A == 2 or (sum_A == 1 and sum_F == 1):
-            sum = 21
+
         return sum
 
 

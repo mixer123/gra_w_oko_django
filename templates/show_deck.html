@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Pokaż talię{% endblock %}
+
+{% block content %}
 {% for card in cards %}
     {{ card.name }} {{ card.color }} <img src="/media/{{card.name}}{{card.namecolor}}.png"><br>
 {% endfor %}
-</body>
-</html>
+{% endblock %}
